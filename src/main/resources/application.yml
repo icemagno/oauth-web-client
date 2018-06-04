@@ -1,0 +1,23 @@
+server:
+    session:
+      cookie:
+        name: ATLASSESSION
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: cerberus
+      clientSecret: cerberus
+      accessTokenUri: http://localhost:8180/guardiao/oauth/token
+      userAuthorizationUri: http://localhost:8180/guardiao/oauth/authorize
+    resource:
+      userInfoUri: http://localhost:8180/guardiao/user/me
+ 
+ 
+spring:
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false 
