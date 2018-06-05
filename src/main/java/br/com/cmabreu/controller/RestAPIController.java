@@ -10,22 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cmabreu.dto.ConfigDTO;
 import br.com.cmabreu.dto.UserLesserDTO;
 import br.com.cmabreu.dto.UserListDTO;
 import br.com.cmabreu.model.User;
-import br.com.cmabreu.service.UserService;
+import br.com.cmabreu.repository.UserRepository;
 
 @RestController
 @RequestMapping(value = "/v1")
 public class RestAPIController {
 	
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 	
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 	
 	@RequestMapping(value = "/whoami", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody UserLesserDTO whoami( ) {
@@ -36,13 +32,11 @@ public class RestAPIController {
 					.getPrincipal();
 		
 		String userName = userDetail.getUsername();
-	    UserLesserDTO user = new UserLesserDTO( this.userService.loadUserByUsername(userName) );
-	    
+	    UserLesserDTO user = new UserLesserDTO( this.userRepository.findByName(userName) );
 	    return user;
-	    
 	}
 	
-
+/*
 	@RequestMapping(value = "/getconfig", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody ConfigDTO getConfig() {
 		org.springframework.security.core.userdetails.User userDetail = 
@@ -60,11 +54,12 @@ public class RestAPIController {
 	    return config;
 	    
 	}
+*/	
 	
 
 	@RequestMapping(value = "/usuarios", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody UserListDTO listPhones(Model model) {
-	    List<User> users = this.userService.listUsers();
+	    List<User> users = this.userRepository.findAll();
 	    UserListDTO uld = new UserListDTO();
 	    for( User usr : users  ) {
 	    	uld.addUser( new UserLesserDTO( usr) );
@@ -72,5 +67,4 @@ public class RestAPIController {
 	    return uld;
 	}
 
-	
 }

@@ -55,10 +55,6 @@
              <artifactId>postgresql</artifactId>
           </dependency>		
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-		</dependency>
 
     </dependencies>
 

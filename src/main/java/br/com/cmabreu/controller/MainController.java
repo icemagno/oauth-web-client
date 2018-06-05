@@ -1,5 +1,7 @@
 package br.com.cmabreu.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.cmabreu.dto.UserLesserDTO;
 import br.com.cmabreu.misc.Constants;
-import br.com.cmabreu.service.UserService;
+import br.com.cmabreu.model.User;
+import br.com.cmabreu.repository.UserRepository;
 
 @Controller
 public class MainController {
 	
 	
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 	
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}	
-
-	
-
 	private UserLesserDTO getLoggedUser( HttpSession session ) {
 		
 		UserLesserDTO user = (UserLesserDTO)session.getAttribute( Constants.USEROBJECT ); 
@@ -68,9 +65,15 @@ public class MainController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public String userProfile( @PathVariable("id") long userId, Model model, HttpSession session ) {
 		model.addAttribute( "user", getLoggedUser( session ) );
+		User user = null;
 		
-		UserLesserDTO user = new UserLesserDTO( this.userService.getUserById( new Long(userId) ) );
-		model.addAttribute( "userToEdit", user );
+		Optional<User> optUser = this.userRepository.findById( new Long(userId) );
+		if ( optUser.isPresent() ) {
+			user = optUser.get();
+			UserLesserDTO userDto = new UserLesserDTO( user );
+			model.addAttribute( "userToEdit", userDto );
+		}
+		
 		
 		return "user";
 	}	
@@ -84,7 +87,7 @@ public class MainController {
 					.getPrincipal();
 		
 		String userName = userDetail.getUsername();
-	    UserLesserDTO user = new UserLesserDTO( this.userService.loadUserByUsername(userName) );
+	    UserLesserDTO user = new UserLesserDTO( this.userRepository.findByName(userName) );
 	    return user;
 	    
 	}	
