@@ -7,14 +7,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableOAuth2Sso
 @Configuration
-public class UiSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**")
+        http
+        	.csrf().disable()
+        	.logout().logoutSuccessUrl("http://localhost:8180/guardiao/exit")	
+        .and()
             .authorizeRequests()
-            .antMatchers("/", "/login**", "/v1/**")
-            .permitAll()
+    		.antMatchers("/resources/**").permitAll()
+    	.and()
+    		.authorizeRequests()
             .anyRequest()
             .authenticated();
     }

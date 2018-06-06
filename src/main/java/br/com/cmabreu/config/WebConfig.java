@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 //@ComponentScan( basePackages="br.com.cmabreu.*")
-public class UiWebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -32,14 +32,12 @@ public class UiWebConfig implements WebMvcConfigurer {
 
 	  @Override
 	  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	      //registry.addResourceHandler("/resources/**").addResourceLocations("resources/");
-	      //registry.addResourceHandler("/fotos/**").addResourceLocations("fotos/");
+	      registry.addResourceHandler("/resources/**").addResourceLocations("resources/");
 	  }	  
 	  
 	  @Override
 	  public void addViewControllers(ViewControllerRegistry registry) {
 	      registry.addViewController("/").setViewName("index");
-	      //registry.addViewController("/securedPage").setViewName("securedPage");
 	  }	
 
 }

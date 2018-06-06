@@ -7,7 +7,7 @@ security:
     enabled: false
   oauth2:
     client:
-      clientId: cerberus
+      clientId: atlas
       clientSecret: cerberus
       accessTokenUri: http://localhost:8180/guardiao/oauth/token
       userAuthorizationUri: http://localhost:8180/guardiao/oauth/authorize

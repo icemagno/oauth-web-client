@@ -6,12 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.cmabreu.misc.LogType;
@@ -29,9 +26,6 @@ public class Log {
 	@Column
 	private Date data;
 	
-	@ManyToOne()
-	@JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "fk_log_user"))
-	private User user;	
 	
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -57,14 +51,6 @@ public class Log {
 
 	public void setData(Date data) {
 		this.data = data;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public LogType getLogType() {

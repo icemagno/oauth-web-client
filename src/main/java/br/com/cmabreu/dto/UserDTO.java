@@ -3,35 +3,77 @@ package br.com.cmabreu.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import br.com.cmabreu.misc.UserRole;
-import br.com.cmabreu.model.User;
-import br.com.cmabreu.model.UserRoles;
 
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
 	private Long id;
 	private String username;
 	private String fullName;
-	private String password;
 	private boolean enabled;
     private List<UserRolesDTO> roles;
     private String profileImage;
+    private String funcao;
+    private String telefone;
+    private String origem;
+    private String setor;
 	
-    public UserDTO( User user ) {
-    	this.id = user.getId();
-    	this.username = user.getUsername();
-    	this.password = user.getPassword();
-    	this.enabled = user.isEnabled();
+    @SuppressWarnings("unchecked")
+	public UserDTO( Map<String, Object> details ) {
 		this.roles = new ArrayList<UserRolesDTO>();
-		this.profileImage = user.getProfileImage();
-		this.fullName = user.getFullName();
-		for( UserRoles ur : user.getRoles() ) {
-			this.roles.add( new UserRolesDTO( ur) );
-		}
-		
+    	
+    	for ( Map.Entry<String, Object> entry : details.entrySet() ) {
+    	    String key = entry.getKey();
+    	    Object value = entry.getValue();
+
+    	    if ( "id".equals( key ) ) {
+    	    	this.id = Long.valueOf( (Integer)value );
+    	    }
+    	    
+    	    if ( "username".equals( key ) ) {
+    	    	this.username = (String)value ;
+    	    }
+    	    
+    	    if ( "fullName".equals( key ) ) {
+    	    	this.fullName = (String)value ;
+    	    }
+
+    	    if ( "enabled".equals( key ) ) {
+    	    	this.enabled = (Boolean)value ;
+    	    }
+    	    
+    	    if ( "profileImage".equals( key ) ) {
+    	    	this.profileImage = (String)value ;
+    	    }   	    
+
+    	    if ( "funcao".equals( key ) ) {
+    	    	this.funcao = (String)value ;
+    	    }    	    
+    	 
+    	    if ( "roles".equals( key ) ) {
+        	    for ( Map<String, String> mp : ( List< Map<String, String> > )value ) {
+        	    	UserRolesDTO urdto = new UserRolesDTO( mp );
+        	    	this.roles.add( urdto );		
+        	    }
+    	    }
+
+    	    if ( "funcao".equals( key ) ) {
+    	    	this.funcao = (String)value ;
+    	    }    	    
+    	    if ( "setor".equals( key ) ) {
+    	    	this.setor = (String)value ;
+    	    }    	    
+    	    if ( "telefone".equals( key ) ) {
+    	    	this.telefone = (String)value ;
+    	    }    	    
+    	    if ( "origem".equals( key ) ) {
+    	    	this.origem = (String)value ;
+    	    }    	    
+    	    
+    	}	
 	}
     
     public boolean isAdmin() {
@@ -41,6 +83,14 @@ public class UserDTO implements Serializable {
     	return false;
     }
     
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	public List<UserRolesDTO> getRoles() {
 		return roles;
 	}
@@ -65,14 +115,6 @@ public class UserDTO implements Serializable {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -89,14 +131,41 @@ public class UserDTO implements Serializable {
 		this.profileImage = profileImage;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getFuncao() {
+		return funcao;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setFuncao(String funcao) {
+		this.funcao = funcao;
 	}
 
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getOrigem() {
+		return origem;
+	}
+
+	public void setOrigem(String origem) {
+		this.origem = origem;
+	}
+
+	public String getSetor() {
+		return setor;
+	}
+
+	public void setSetor(String setor) {
+		this.setor = setor;
+	}
+
+	public void setRoles(List<UserRolesDTO> roles) {
+		this.roles = roles;
+	}
 
 	
 }

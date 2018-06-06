@@ -1,13 +1,13 @@
 package br.com.cmabreu.dto;
 
 public class ConfigDTO {
-	private UserLesserDTO user;
+	private UserDTO user;
 
-	public UserLesserDTO getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(UserLesserDTO user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 	
